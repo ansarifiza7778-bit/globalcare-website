@@ -1,0 +1,208 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  color: #12263a;
+  background: white;
+}
+
+/* Navbar */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 40px;
+  border-bottom: 1px solid #cfe0de;
+}
+.navbar a {
+  text-decoration: none;
+  color: #12263a;
+}
+.navbar nav a {
+  margin-left: 20px;
+  font-weight: bold;
+}
+
+/* Footer */
+.footer {
+  background: #12263a;
+  color: white;
+  padding: 40px 40px 20px;
+  margin-top: 40px;
+}
+.footer-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+.footer h3 {
+  margin: 0 0 10px;
+}
+.footer p {
+  margin: 4px 0;
+  color: #c9d8e4;
+}
+.footer a {
+  display: block;
+  color: #c9d8e4;
+  text-decoration: none;
+  margin: 4px 0;
+}
+.footer a:hover {
+  color: white;
+}
+.footer-bottom {
+  border-top: 1px solid #2d4560;
+  margin-top: 24px;
+  padding-top: 16px;
+  text-align: center;
+}
+
+/* Doctor cards */
+.list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 20px;
+  padding: 30px 40px;
+}
+.card {
+  border: 1px solid #cfe0de;
+  border-radius: 10px;
+  padding: 20px;
+}
+.card-btn {
+  display: inline-block;
+  margin-top: 8px;
+  background: #0f7b78;
+  color: white;
+  padding: 10px 16px;
+  border-radius: 6px;
+  text-decoration: none;
+}
+
+/* Search and filter */
+.filters {
+  display: flex;
+  gap: 12px;
+  padding: 30px 40px 0;
+  flex-wrap: wrap;
+}
+.filters input,
+.filters select {
+  padding: 10px;
+  border: 1px solid #cfe0de;
+  border-radius: 6px;
+  font-size: 16px;
+}
+.filters input {
+  min-width: 240px;
+}
+
+/* Home page */
+.hero {
+  background: #12263a;
+  color: white;
+  padding: 60px 40px;
+}
+.hero h1 {
+  margin: 0 0 12px;
+  max-width: 600px;
+}
+.hero p {
+  margin: 0 0 24px;
+}
+.hero-btn {
+  display: inline-block;
+  background: #0f7b78;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: bold;
+}
+.section-title {
+  padding: 30px 40px 0;
+  margin: 0;
+}
+
+/* Doctor details, booking, confirmation, login, register, review pages */
+.details {
+  padding: 30px 40px;
+  max-width: 700px;
+}
+.back-link {
+  color: #0f7b78;
+  text-decoration: none;
+  font-weight: bold;
+}
+.details h1 {
+  margin: 20px 0 4px;
+}
+.details-sub {
+  margin: 0 0 20px;
+  color: #52677a;
+}
+.details-box {
+  border: 1px solid #cfe0de;
+  border-radius: 10px;
+  padding: 8px 20px;
+  margin-bottom: 20px;
+}
+
+/* Forms (booking, login, register, review) */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.form label {
+  font-weight: bold;
+  margin-top: 8px;
+}
+.form input,
+.form select,
+.form textarea {
+  padding: 10px;
+  border: 1px solid #cfe0de;
+  border-radius: 6px;
+  font-size: 16px;
+  font-family: Arial, sans-serif;
+}
+.form-btn {
+  margin-top: 16px;
+  background: #0f7b78;
+  color: white;
+  border: 0;
+  padding: 12px;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+.form-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.form-note {
+  margin-top: 20px;
+}
+.form-note a {
+  color: #0f7b78;
+  font-weight: bold;
+}
+
+/* Review stars */
+.stars {
+  display: flex;
+  gap: 4px;
+}
+.star-btn {
+  background: none;
+  border: 0;
+  font-size: 32px;
+  color: #cfe0de;
+  cursor: pointer;
+}
+.star-btn.on {
+  color: #f5a623;
+}
