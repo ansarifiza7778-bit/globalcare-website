@@ -1,10 +1,19 @@
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import DoctorCard from "../Components/DoctorCard";
-import { doctorsData } from "../Data/doctorsData";
 
 function Home() {
-  // slice(0, 3): list ke sirf pehle 3 doctors lo
-  const featuredDoctors = doctorsData.slice(0, 3);
+  const [doctors, setDoctors] = useState([]);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    fetch("http://127.0.0.1:5000/doctors")
+      .then((res) => res.json())
+      .then((data) => setDoctors(data))
+      .catch((err) => setError(err.message));
+  }, []);
+
+  const featuredDoctors = doctors.slice(0, 3);
 
   return (
     <div>
@@ -14,7 +23,6 @@ function Home() {
           Connect with doctors from different countries from the comfort of
           your home.
         </p>
-        {/* Link: click karne par Doctors page khulta hai */}
         <Link to="/doctors" className="hero-btn">
           Find a Doctor
         </Link>
@@ -22,9 +30,11 @@ function Home() {
 
       <h2 className="section-title">Featured Doctors</h2>
 
+      {error && <p style={{ padding: "0 40px" }}>Error: {error}</p>}
+
       <div className="list">
         {featuredDoctors.map((doctor) => (
-          <DoctorCard key={doctor.id} doctor={doctor} />
+          <DoctorCard key={doctor._id} doctor={doctor} />
         ))}
       </div>
     </div>

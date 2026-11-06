@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 
-// Props: parent (page) se data yahan aata hai.
-// props.doctor = ek doctor ka data
+// Props: data comes here from the parent (page).
+// props.doctor = data of one doctor
 function DoctorCard(props) {
   return (
     <div className="card">
@@ -10,8 +10,8 @@ function DoctorCard(props) {
       <p>{props.doctor.experience} years experience</p>
       <p>Fee: ${props.doctor.fee}</p>
 
-      {/* Click karne par us doctor ka profile page khulega */}
-      <Link to={"/doctors/" + props.doctor.id} className="card-btn">
+      {/* Clicking this opens the profile page of that doctor */}
+      <Link to={"/doctors/" + props.doctor._id} className="card-btn">
         View Profile
       </Link>
     </div>

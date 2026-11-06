@@ -1,15 +1,39 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
-import { doctorsData } from "../Data/doctorsData";
 
 function Review() {
   const { id } = useParams();
-  const doctor = doctorsData.find((d) => d.id === Number(id));
 
+  const [doctor, setDoctor] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  const [patientName, setPatientName] = useState("");
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
-  // submitted: review bhejne ke baad true ho jata hai
   const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    fetch("http://localhost:5000/doctors/" + id)
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error("Not found");
+        }
+        return res.json();
+      })
+      .then((data) => {
+        setDoctor(data);
+        setLoading(false);
+      })
+      .catch(() => {
+        setDoctor(null);
+        setLoading(false);
+      });
+  }, [id]);
+
+  if (loading) {
+    return <p style={{ padding: "30px 40px" }}>Loading...</p>;
+  }
 
   if (!doctor) {
     return <p style={{ padding: "30px 40px" }}>Doctor not found.</p>;
@@ -17,11 +41,35 @@ function Review() {
 
   function handleSubmit(e) {
     e.preventDefault();
-    // Abhi review sirf screen par dikhega. Save karna backend ke baad judega.
-    setSubmitted(true);
+    setError("");
+
+    // The backend saves "rating" as "ratting" and uses "patientName" for the name
+    const reviewData = {
+      doctorId: doctor._id,
+      patientName: patientName,
+      rating: rating,
+      comment: comment,
+    };
+
+    fetch("http://localhost:5000/reviews", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(reviewData),
+    })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error("Review failed");
+        }
+        return res.json();
+      })
+      .then(() => {
+        setSubmitted(true);
+      })
+      .catch(() => {
+        setError("Could not save your review. Please try again.");
+      });
   }
 
-  // Review bhejne ke baad thank you message dikhao
   if (submitted) {
     return (
       <div className="details">
@@ -39,9 +87,16 @@ function Review() {
       <p className="details-sub">{doctor.name} · {doctor.specialty}</p>
 
       <form className="form" onSubmit={handleSubmit}>
+        <label>Your name</label>
+        <input
+          type="text"
+          required
+          value={patientName}
+          onChange={(e) => setPatientName(e.target.value)}
+        />
+
         <label>Your rating</label>
         <div className="stars">
-          {/* 1 se 5 tak har number ke liye ek star button */}
           {[1, 2, 3, 4, 5].map((star) => (
             <button
               type="button"
@@ -62,7 +117,8 @@ function Review() {
           onChange={(e) => setComment(e.target.value)}
         />
 
-        {/* rating 0 hai to button band rahega */}
+        {error && <p style={{ color: "red" }}>{error}</p>}
+
         <button type="submit" className="form-btn" disabled={rating === 0}>
           Submit Review
         </button>

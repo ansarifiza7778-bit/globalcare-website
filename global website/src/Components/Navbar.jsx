@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 
-// props.user: login hai to user ka data, nahi to null
-// props.onLogout: Logout dabane par chalne wala function
+// props.user: user data if logged in, otherwise null
+// props.onLogout: function that runs when Logout is clicked
 function Navbar(props) {
   return (
     <header className="navbar">
@@ -13,9 +13,10 @@ function Navbar(props) {
         <Link to="/">Home</Link>
         <Link to="/doctors">Doctors</Link>
 
-        {/* Login hai to naam aur Logout dikhao, nahi to Login link */}
+        {/* If logged in, show My Bookings, name and Logout. Otherwise show Login */}
         {props.user ? (
           <>
+            <Link to="/my-bookings">My Bookings</Link>
             <span style={{ marginLeft: 20 }}>Hi, {props.user.name}</span>
             <Link to="/" onClick={props.onLogout}>Logout</Link>
           </>

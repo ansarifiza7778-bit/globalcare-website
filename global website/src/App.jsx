@@ -10,13 +10,14 @@ import Confirmation from "./Pages/Confirmation";
 import Login from "./Pages/Login";
 import Register from "./Pages/Register";
 import Review from "./Pages/Review";
+import MyBookings from "./Pages/MyBookings";
 
-// ProtectedRoute: agar user login nahi hai to use Login page par bhej do
+// ProtectedRoute: if the user is not logged in, send them to the Login page
 function ProtectedRoute(props) {
   const location = useLocation();
 
   if (!props.user) {
-    // state={{ from: ... }}: login ke baad wapas isi page par aane ke liye
+    // state={{ from: ... }}: so we can come back to this page after login
     return <Navigate to="/login" state={{ from: location.pathname }} replace />;
   }
 
@@ -24,7 +25,7 @@ function ProtectedRoute(props) {
 }
 
 function App() {
-  // user: login hone par user ka data, nahi to null
+  // user: user data after login, otherwise null
   const [user, setUser] = useState(null);
 
   function handleLogin(userData) {
@@ -45,12 +46,12 @@ function App() {
         <Route path="/login" element={<Login onLogin={handleLogin} />} />
         <Route path="/register" element={<Register />} />
 
-        {/* Ye 3 pages sirf login ke baad khulenge */}
+        {/* These pages open only after login */}
         <Route
           path="/book/:id"
           element={
             <ProtectedRoute user={user}>
-              <BookAppointment />
+              <BookAppointment user={user} />
             </ProtectedRoute>
           }
         />
@@ -67,6 +68,14 @@ function App() {
           element={
             <ProtectedRoute user={user}>
               <Review />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/my-bookings"
+          element={
+            <ProtectedRoute user={user}>
+              <MyBookings user={user} />
             </ProtectedRoute>
           }
         />

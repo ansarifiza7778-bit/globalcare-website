@@ -1,39 +1,78 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { doctorsData } from "../Data/doctorsData";
 
-function BookAppointment() {
+function BookAppointment(props) {
   const { id } = useParams();
-  // useNavigate: code se dusre page par bhejne ke liye
   const navigate = useNavigate();
 
-  const doctor = doctorsData.find((d) => d.id === Number(id));
+  const [doctor, setDoctor] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  // Form ke har box ke liye ek useState
   const [patientName, setPatientName] = useState("");
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
+
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    fetch("http://localhost:5000/doctors/" + id)
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error("Not found");
+        }
+        return res.json();
+      })
+      .then((data) => {
+        setDoctor(data);
+        setLoading(false);
+      })
+      .catch(() => {
+        setDoctor(null);
+        setLoading(false);
+      });
+  }, [id]);
+
+  if (loading) {
+    return <p style={{ padding: "30px 40px" }}>Loading...</p>;
+  }
 
   if (!doctor) {
     return <p style={{ padding: "30px 40px" }}>Doctor not found.</p>;
   }
 
   function handleSubmit(e) {
-    // preventDefault: form submit par page reload hone se rokta hai
     e.preventDefault();
+    setError("");
 
-    // Confirmation page par data bhejo
-    navigate("/confirmation", {
-      state: {
-        patientName: patientName,
-        date: date,
-        time: time,
-        doctorName: doctor.name,
-        specialty: doctor.specialty,
-        fee: doctor.fee,
-        doctorId: doctor.id,
-      },
-    });
+    const bookingData = {
+      patientName: patientName,
+      date: date,
+      time: time,
+      doctorName: doctor.name,
+      specialty: doctor.specialty,
+      fee: doctor.fee,
+      doctorId: doctor._id,
+      // Email of the logged-in user, so we can show only their bookings later
+      userEmail: props.user.email,
+    };
+
+    fetch("http://localhost:5000/bookings", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(bookingData),
+    })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error("Booking failed");
+        }
+        return res.json();
+      })
+      .then(() => {
+        navigate("/confirmation", { state: bookingData });
+      })
+      .catch(() => {
+        setError("Could not save your booking. Please try again.");
+      });
   }
 
   return (
@@ -70,6 +109,8 @@ function BookAppointment() {
           <option value="05:30 PM">05:30 PM</option>
         </select>
 
+        {error && <p style={{ color: "red" }}>{error}</p>}
+
         <button type="submit" className="form-btn">
           Confirm Booking
         </button>
@@ -79,4 +120,3 @@ function BookAppointment() {
 }
 
 export default BookAppointment;
-

@@ -1,11 +1,11 @@
 import { useLocation, Link } from "react-router-dom";
 
 function Confirmation() {
-  // useLocation: BookAppointment page ne jo data bheja tha, wo yahan milta hai
+  // useLocation: gets the data that the BookAppointment page sent
   const location = useLocation();
   const booking = location.state;
 
-  // Agar koi seedha /confirmation link kholta hai, to data nahi hoga
+  // If someone opens the /confirmation link directly, there will be no data
   if (!booking) {
     return (
       <div className="details">
@@ -28,7 +28,7 @@ function Confirmation() {
         <p><strong>Fee:</strong> ${booking.fee}</p>
       </div>
 
-      {/* doctorId se pata chalta hai ki kis doctor ka review page kholna hai */}
+      {/* doctorId tells us which doctor's review page to open */}
       <Link to={"/review/" + booking.doctorId} className="card-btn" style={{ marginRight: 12 }}>
         Rate this doctor
       </Link>

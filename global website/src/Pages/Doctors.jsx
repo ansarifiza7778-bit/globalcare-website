@@ -1,17 +1,46 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import DoctorCard from "../Components/DoctorCard";
-import { doctorsData } from "../Data/doctorsData";
+
+// Make text lowercase, turn dots into spaces and remove extra spaces,
+// so "Dr. Ananya", "dr.ananya" and "dr ananya" all match
+function clean(text) {
+  return (text || "")
+    .toLowerCase()
+    .replace(/\./g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
 
 function Doctors() {
-  // useState: ye data yaad rakhta hai. Badalne par page apne aap update hota hai.
+  const [doctors, setDoctors] = useState([]);
   const [search, setSearch] = useState("");
   const [specialty, setSpecialty] = useState("All");
+  // This state stores the error message (empty means no error)
+  const [error, setError] = useState("");
 
-  // Search aur specialty dono se match hone wale doctors hi rakho
-  const filteredDoctors = doctorsData.filter((doctor) => {
+  useEffect(() => {
+    fetch("http://localhost:5000/doctors")
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error("Request failed");
+        }
+        return res.json();
+      })
+      .then((data) => setDoctors(data))
+      .catch((err) => {
+        console.log("Error:", err);
+        setError("Could not load doctors.");
+      });
+  }, []);
+
+  const filteredDoctors = doctors.filter((doctor) => {
+    const text = clean(search);
+
+    // Search by doctor name, country or specialty (small or capital letters both work)
     const matchSearch =
-      doctor.name.toLowerCase().includes(search.toLowerCase()) ||
-      doctor.country.toLowerCase().includes(search.toLowerCase());
+      clean(doctor.name).includes(text) ||
+      clean(doctor.country).includes(text) ||
+      clean(doctor.specialty).includes(text);
 
     const matchSpecialty = specialty === "All" || doctor.specialty === specialty;
 
@@ -39,12 +68,17 @@ function Doctors() {
 
       <div className="list">
         {filteredDoctors.map((doctor) => (
-          <DoctorCard key={doctor.id} doctor={doctor} />
+          <DoctorCard key={doctor._id} doctor={doctor} />
         ))}
       </div>
 
-      {filteredDoctors.length === 0 && (
-        <p style={{ padding: "0 40px" }}>No doctors found.</p>
+      {/* Show the error if loading failed, otherwise show "No doctors found." when the list is empty */}
+      {error ? (
+        <p style={{ padding: "0 40px", color: "red" }}>{error}</p>
+      ) : (
+        filteredDoctors.length === 0 && (
+          <p style={{ padding: "0 40px" }}>No doctors found.</p>
+        )
       )}
     </div>
   );

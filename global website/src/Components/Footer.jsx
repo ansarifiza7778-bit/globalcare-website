@@ -11,7 +11,7 @@ function Footer() {
 
         <div>
           <h3>Quick Links</h3>
-          {/* Link: page reload kiye bina dusre page par jaata hai */}
+          {/* Link: goes to another page without reloading the page */}
           <Link to="/">Home</Link>
           <Link to="/doctors">Doctors</Link>
           <Link to="/login">Login</Link>

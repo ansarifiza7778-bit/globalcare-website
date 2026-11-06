@@ -17,9 +17,19 @@ body {
   text-decoration: none;
   color: #12263a;
 }
+/* Keep the links and the user name in one row, and do not break the name into two lines */
+.navbar nav {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
 .navbar nav a {
   margin-left: 20px;
   font-weight: bold;
+}
+.navbar nav span {
+  white-space: nowrap;
 }
 
 /* Footer */
@@ -69,6 +79,7 @@ body {
   border: 1px solid #cfe0de;
   border-radius: 10px;
   padding: 20px;
+  transition: box-shadow 0.2s;
 }
 .card-btn {
   display: inline-block;
@@ -78,6 +89,7 @@ body {
   padding: 10px 16px;
   border-radius: 6px;
   text-decoration: none;
+  transition: background 0.2s;
 }
 
 /* Search and filter */
@@ -119,6 +131,7 @@ body {
   border-radius: 6px;
   text-decoration: none;
   font-weight: bold;
+  transition: background 0.2s;
 }
 .section-title {
   padding: 30px 40px 0;
@@ -178,6 +191,7 @@ body {
   font-size: 16px;
   font-weight: bold;
   cursor: pointer;
+  transition: background 0.2s;
 }
 .form-btn:disabled {
   opacity: 0.4;
@@ -205,4 +219,43 @@ body {
 }
 .star-btn.on {
   color: #f5a623;
+}
+
+/* Hover effects: buttons get a darker color, cards get a soft shadow */
+.card-btn:hover,
+.hero-btn:hover,
+.form-btn:hover:not(:disabled) {
+  background: #0b6663;
+}
+.card:hover {
+  box-shadow: 0 4px 14px rgba(18, 38, 58, 0.12);
+}
+
+/* Small screens (phones): less padding on the sides */
+@media (max-width: 600px) {
+  .navbar {
+    padding: 12px 20px;
+  }
+  .filters {
+    padding: 20px 20px 0;
+  }
+  .list {
+    padding: 20px;
+  }
+  .hero {
+    padding: 40px 20px;
+  }
+  .section-title {
+    padding: 20px 20px 0;
+  }
+  .details {
+    padding: 20px;
+  }
+  .footer {
+    padding: 30px 20px 20px;
+  }
+  .filters input {
+    min-width: 0;
+    width: 100%;
+  }
 }
