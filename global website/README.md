@@ -1,16 +1,64 @@
-# React + Vite
+# GlobalCare International - Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**GlobalCare International** is a doctor appointment website where patients can find doctors from different countries, book appointments, leave reviews and see their own bookings.
 
-Currently, two official plugins are available:
+Backend repository: https://github.com/ansarifiza7778-bit/GlobalCare
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Tech Stack
 
-## React Compiler
+- React (Vite)
+- React Router
+- JavaScript, CSS
+- Node.js, Express.js and MongoDB (backend)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Features
 
-## Expanding the ESLint configuration
+- Home page with featured doctors
+- Doctors page with search (by name, country or specialty) and specialty filter
+- Doctor details page with patient reviews
+- Register and Login (passwords are hashed in the backend)
+- Protected pages: Book Appointment, Confirmation, Review and My Bookings open only after login
+- Book an appointment and see a confirmation page
+- Rate a doctor with stars and a comment
+- My Bookings page that shows only the bookings of the logged-in user
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Pages
+
+| Page | Route |
+|------|-------|
+| Home | `/` |
+| Doctors | `/doctors` |
+| Doctor Details | `/doctors/:id` |
+| Login | `/login` |
+| Register | `/register` |
+| Book Appointment | `/book/:id` |
+| Confirmation | `/confirmation` |
+| Review | `/review/:id` |
+| My Bookings | `/my-bookings` |
+
+## How to Run Locally
+
+1. Start the backend first (see the backend repository). It runs on `http://localhost:5000`.
+2. Clone this repository and open the project folder:
+
+```
+cd "global website"
+```
+
+3. Install the packages:
+
+```
+npm install
+```
+
+4. Start the website:
+
+```
+npm run dev
+```
+
+5. Open the link shown in the terminal (usually `http://localhost:5173`).
+
+## Author
+
+Fiza Ansari
