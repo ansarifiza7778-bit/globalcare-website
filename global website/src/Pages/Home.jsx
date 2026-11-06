@@ -6,13 +6,15 @@ function Home() {
   const [doctors, setDoctors] = useState([]);
   const [error, setError] = useState("");
 
+  // Get the doctors list from the backend when the page opens
   useEffect(() => {
-    fetch("http://127.0.0.1:5000/doctors")
+    fetch("http://localhost:5000/doctors")
       .then((res) => res.json())
       .then((data) => setDoctors(data))
       .catch((err) => setError(err.message));
   }, []);
 
+  // slice(0, 3): take only the first 3 doctors
   const featuredDoctors = doctors.slice(0, 3);
 
   return (
